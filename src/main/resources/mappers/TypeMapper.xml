@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.goods.mapper.TypeMapper">
+    <!--查询-->
+    <select id="selAll" resultType="java.util.HashMap">
+        select * from type
+    </select>
+    <!--修改-->
+    <update id="updType" parameterType="com.example.goods.entity.Type">
+        update type set name = #{type.name} where id = #{type.id}
+    </update>
+    <!--添加-->
+    <insert id="insType" parameterType="string">
+        insert into type (name) values (#{name});
+    </insert>
+    <!--删除-->
+    <delete id="delType" parameterType="int">
+        delete from type where id =  #{id}
+    </delete>
+</mapper>
