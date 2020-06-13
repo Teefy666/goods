@@ -22,15 +22,16 @@ public class InventoryController {
     private InventoryService inventoryServiceImpl;
 
     /**
-     * 根据类型id查询库存
+     * 查询库存
      * @param id 类型id
+     * @param name 物资名
      * @return 库存信息
      */
-    @RequestMapping("/getInventoryByTypeId")
-    public Result getInventoryByTypeId(Integer id) {
+    @RequestMapping("/getInventory")
+    public Result getInventory(Integer id, String name) {
         Assert.isNull(id, "类型id不能为空！");
 
-        List<HashMap<String, String>> lists = inventoryServiceImpl.selInventoryByTypeId(id);
+        List<HashMap<String, String>> lists = inventoryServiceImpl.selInventory(id, name);
         return Result.ok().put("lists", lists);
     }
 }
