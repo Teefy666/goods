@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.goods.mapper.InventoryMapper">
     <!--查询库存-->
-    <select id="selInventoryByTypeId" parameterType="int" resultType="java.util.HashMap">
-        select g.code code, g.name name, g.unit unit, g.specifications specifications,
+    <select id="selInventory" resultType="java.util.HashMap">
+        select g.code code, g.name name, g.unit unit, g.specifications specifications, g.id goodsId
                i.amount amount, i.id inventoryId, g.producer producer, g.remark remark, g.image image,
                t.name typeName, t.id typeId
         from inventory i
@@ -13,6 +13,23 @@
             <if test="id!=null">
                 and t.id = #{id}
             </if>
+            <if test="name!=null and name!=''">
+                <bind name="name" value="'%'+name+'%'"/>
+                and g.name like #{name}
+            </if>
         </where> 
     </select>
+    <!--查询库存数量，入库出库用-->
+    <select id="selCounts" parameterType="int" resultType="int">
+        select amount from inventory where id = #{id}
+    </select>
+    <!--添加物资资料的时候同时添加库存信息-->
+    <insert id="insInventory">
+        insert into inventory
+        values (default, #{id}, 0)
+    </insert>
+    <!--删除物资资料的时候同时删除库存信息-->
+    <delete id="delInventory" parameterType="int">
+        delete from inventory where goodsid = #{id}
+    </delete>
 </mapper>

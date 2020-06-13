@@ -13,7 +13,8 @@ public interface InventoryService {
     /**
      * 根据类型id查询库存
      * @param id 类型id
+     * @param name 物资名
      * @return 库存信息
      */
-    List<HashMap<String, String>> selInventoryByTypeId(Integer id);
+    List<HashMap<String, String>> selInventory(Integer id, String name);
 }

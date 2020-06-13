@@ -19,7 +19,7 @@ public class InventoryServiceImpl implements InventoryService {
     private InventoryMapper inventoryMapper;
 
     @Override
-    public List<HashMap<String, String>> selInventoryByTypeId(Integer id) {
-        return inventoryMapper.selInventoryByTypeId(id);
+    public List<HashMap<String, String>> selInventory(Integer id, String name) {
+        return inventoryMapper.selInventory(id, name);
     }
 }
