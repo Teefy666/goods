@@ -3,11 +3,16 @@ package com.example.goods.controller;
 import com.example.goods.entity.Goods;
 import com.example.goods.service.GoodsService;
 import com.example.goods.utils.Assert;
+import com.example.goods.utils.JsonUtils;
+import com.example.goods.utils.RRException;
 import com.example.goods.utils.Result;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 /**
  * @author Administrator
@@ -22,13 +27,14 @@ public class GoodsController {
 
     /**
      * 添加物资资料
-     * @param goods 资料对象
+     * @param msg 物资资料Json对象
      * @return 是否成功
      */
-    @RequestMapping("/addGoods")
-    public Result addGoods(Goods goods) {
+    @PostMapping("/addGoods/{msg}")
+    public Result addGoods(@PathVariable("msg") String msg) {
+        Goods goods = JsonUtils.stringToObj("msg", Goods.class);
         //验证
-
+        Assert.isNull(goods, "goods不能为空");
 
         try {
             goodsServiceImpl.insGoods(goods);
@@ -40,24 +46,35 @@ public class GoodsController {
 
     /**
      * 根据类型id查询物资资料
-     * @param id 类型id
-     * @param name 物资名
+     * @param msg 物资资料id，name
      * @return 物资资料
      */
-    @RequestMapping("/getGoods")
-    public Result getGoods(Integer id, String name) {
+    @PostMapping("/getGoods/{msg}")
+    public Result getGoods(@PathVariable("msg") String msg) {
+        HashMap map = JsonUtils.stringToObj(msg, HashMap.class);
+        String idStr = null;
+        try {
+            idStr = (String) map.get("id");
+        } catch (Exception e) {
+            throw new RRException("类型id不能为空！");
+        }
+
+        Integer id = Integer.parseInt(idStr);
+        String name = (String) map.get("name");
         return Result.ok().put("list", goodsServiceImpl.selGoods(id, name));
     }
 
     /**
      * 修改物资资料
-     * @param goods 资料对象
+     * @param msg 资料json对象
      * @return 是否成功
      */
-    @RequestMapping("/updGoods")
-    public Result updGoods(Goods goods) {
-        //验证
+    @PostMapping("/updGoods/{msg}")
+    public Result updGoods(@PathVariable("msg") String msg) {
+        Goods goods = JsonUtils.stringToObj("msg", Goods.class);
 
+        //验证
+        Assert.isNull(goods, "goods不能为空");
 
         try {
             goodsServiceImpl.updGoods(goods);
@@ -70,12 +87,14 @@ public class GoodsController {
 
     /**
      * 删除物资资料
-     * @param id 资料id
+     * @param msg 资料id json对象
      * @return 是否成功
      */
-    @RequestMapping("/delGoods")
-    public Result delGoods(Integer id) {
-        Assert.isNull(id, "id不能为空！");
+    @PostMapping("/delGoods/{msg}")
+    public Result delGoods(@PathVariable("msg") String msg) {
+        Integer id = JsonUtils.stringToObj(msg, Integer.class);
+
+        Assert.isNull(id, "id不能为空");
 
         try {
             goodsServiceImpl.delGoods(id);

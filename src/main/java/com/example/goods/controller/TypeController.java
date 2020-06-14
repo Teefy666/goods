@@ -1,12 +1,13 @@
 package com.example.goods.controller;
 
+
+
 import com.example.goods.entity.Type;
 import com.example.goods.service.TypeService;
 import com.example.goods.utils.Assert;
+import com.example.goods.utils.JsonUtils;
 import com.example.goods.utils.Result;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -24,18 +25,20 @@ public class TypeController {
      * 查询全部type
      * @return types
      */
-    @RequestMapping("/get")
+    @PostMapping("/getTypes")
     public Result getTypes() {
         return Result.ok().put("types", typeServiceImpl.selAll());
     }
 
     /**
-     * 添加type
-     * @param type type对象
+     * 添加类型
+     * @param msg 类型Json对象
      * @return 是否成功
      */
-    @RequestMapping("/addTypes")
-    public Result addTypes(Type type) {
+    @PostMapping("/addTypes/{msg}")
+    public Result addTypes(@PathVariable("msg") String msg) {
+        Type type = JsonUtils.stringToObj(msg, Type.class);
+
         Assert.isNull(type, "类型不能为空");
 
         try {
@@ -48,11 +51,13 @@ public class TypeController {
 
     /**
      * 修改type
-     * @param type type对象
+     * @param msg 类型Json对象
      * @return 是否成功
      */
-    @RequestMapping("/addTypes")
-    public Result updTypes(Type type) {
+    @PostMapping("/updTypes/{msg}")
+    public Result updTypes(@PathVariable("msg") String msg) {
+        Type type = JsonUtils.stringToObj(msg, Type.class);
+
         Assert.isNull(type, "类型不能为空");
         try {
             typeServiceImpl.updType(type);
@@ -62,7 +67,15 @@ public class TypeController {
         return Result.ok("修改成功！");
     }
 
-    public Result delTypes(Integer id) {
+    /**
+     * 删除type
+     * @param msg id json对象
+     * @return 是否成功
+     */
+    @PostMapping("/delTypes/{msg}")
+    public Result delTypes(@PathVariable("msg") String msg) {
+        Integer id = JsonUtils.stringToObj(msg, Integer.class);
+
         Assert.isNull(id, "id不能为空");
         try {
             typeServiceImpl.delType(id);
