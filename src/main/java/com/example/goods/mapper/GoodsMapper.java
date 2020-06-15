@@ -19,7 +19,7 @@ public interface GoodsMapper {
      * @param name 物资名
      * @return 物资资料
      */
-    List<HashMap<String, String>> selGoods(@Param("id") Integer id, @Param("name") String name);
+    List<HashMap<String, Object>> selGoods(@Param("id") Integer id, @Param("name") String name);
 
     /**
      * 删除物资资料

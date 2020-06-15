@@ -25,7 +25,7 @@ public class GoodsServiceImpl implements GoodsService {
     private InventoryMapper inventoryMapper;
 
     @Override
-    public List<HashMap<String, String>> selGoods(Integer id, String name) {
+    public List<HashMap<String, Object>> selGoods(Integer id, String name) {
         return goodsMapper.selGoods(id, name);
     }
 

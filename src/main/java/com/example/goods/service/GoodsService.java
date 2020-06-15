@@ -20,7 +20,7 @@ public interface GoodsService {
      * @param name 物资名
      * @return 物资资料
      */
-    List<HashMap<String, String>> selGoods(Integer id, String name);
+    List<HashMap<String, Object>> selGoods(Integer id, String name);
 
     /**
      * 删除物资资料

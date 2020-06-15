@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.goods.mapper.OutstorageMapper">
+    <!--查询发放信息-->
+    <select id="selOutstorageInfo" resultType="com.example.goods.entity.Outstorage">
+        select * from outstorage
+        <where>
+            <if test="type!=null">
+                and type = #{type}
+            </if>
+            <if test="linkman!=null and linkman!=''">
+                <bind name="linkman" value="'%'+linkman+'%'"/>
+                and linkman like #{linkman}
+            </if>
+        </where>
+    </select>
+    <!--查询对应的物资信息-->
+    <select id="selGoodsInfos" parameterType="java.util.List" resultType="java.util.HashMap">
+        select g.code code, g.name name, g.unit unit, g.specifications specifications, g.id goodsId,
+        t.name typeName, g.producer producer, g.remark remark, g.image image, t.id typeId
+        from goods g
+        join type t on g.typeid = t.id
+        where g.id in
+        <foreach collection="goodsidsList" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <!--添加发放信息-->
+    <insert id="insOutstorageInfo" parameterType="com.example.goods.entity.Outstorage">
+        insert into outstorage
+        values (default, #{out.code}, #{out.company}, #{out.department}, #{out.phone},
+                #{out.intime}, #{out.type}, #{out.linkman}, #{out.goodsids}, #{out.amount});
+    </insert>
+    <!--添加发放信息后，减少对应库存数量-->
+    <update id="updAmount">
+        update inventory set amount = amount - #{amount} where goodsid = #{goodsid}
+    </update>
 
+    <!--查询对应的物资数量，用于检测是否正常-->
+    <select id="selGoodsAmount" parameterType="java.util.List" resultType="int">
+        select i.amount
+        from goods g
+        join inventory i on i.goodsid = g.id
+        where g.id in
+        <foreach collection="goodsidsList" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selOutstorageByid" parameterType="int" resultType="com.example.goods.entity.Outstorage">
+        select * from outstorage where id = #{id}
+    </select>
 </mapper>
