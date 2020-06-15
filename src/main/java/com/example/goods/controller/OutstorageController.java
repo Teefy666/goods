@@ -123,4 +123,47 @@ public class OutstorageController {
         }
         return Result.ok();
     }
+
+    /**
+     * 修改发放信息
+     * @param msg 待修改的信息json对象
+     * @return 是否成功
+     */
+    @PostMapping("/updOutstorageInfo/{msg}")
+    public Result updOutstorageInfo(@PathVariable("msg") String msg) {
+
+        Assert.isBlank(msg, "参数不能为空！");
+        com.example.goods.entity.Outstorage outstorage = JsonUtils.stringToObj(msg, com.example.goods.entity.Outstorage.class);
+        Assert.isNull(outstorage, "参数格式异常");
+        Assert.isBlank(outstorage.getCompany(), "单位不能为空");
+        Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
+        Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
+        Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
+        Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
+        Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
+
+        try {
+            outstorageServiceImpl.updOutstorageInfo(outstorage);
+        } catch (Exception e) {
+            return Result.ok("发生未知错误！");
+        }
+        return Result.ok();
+    }
+
+    /**
+     * 删除发放信息
+     * @param msg idJson对象
+     * @return 是否成功
+     */
+    @PostMapping("/delOutstorageInfo/{msg}")
+    public Result delOutstorageInfo(@PathVariable("msg") String msg) {
+        Integer id = JsonUtils.stringToObj(msg, Integer.class);
+
+        try {
+            outstorageServiceImpl.delOutstorageInfo(id);
+        } catch (Exception e) {
+            return Result.ok("发生未知错误！");
+        }
+        return Result.ok();
+    }
 }

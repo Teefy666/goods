@@ -37,4 +37,18 @@ public interface OutstorageService {
      * @return 是否成功
      */
     Integer passUserApply(Integer goodsid);
+
+    /**
+     * 修改发放信息
+     * @param out 待修改的发放信息
+     * @return 是否成功
+     */
+    Integer updOutstorageInfo(Outstorage out);
+
+    /**
+     * 删除发放信息
+     * @param id 发放id
+     * @return 是否成功
+     */
+    Integer delOutstorageInfo(Integer id);
 }

@@ -75,4 +75,47 @@ public class InstorageController {
         }
         return Result.ok();
     }
+
+    /**
+     * 修改入库信息
+     * @param msg 待修改的信息json对象
+     * @return 是否成功
+     */
+    @PostMapping("/updInstorageInfo/{msg}")
+    public Result updInstorageInfo(@PathVariable("msg") String msg) {
+
+        Assert.isBlank(msg, "参数不能为空！");
+        com.example.goods.entity.Instorage instorage = JsonUtils.stringToObj(msg, com.example.goods.entity.Instorage.class);
+        Assert.isNull(instorage, "参数格式异常");
+        Assert.isBlank(instorage.getCompany(), "单位不能为空");
+        Assert.isBlank(instorage.getDepartment(), "部门不能为空");
+        Assert.isBlank(instorage.getPhone(), "手机号不能为空");
+        Assert.isBlank(instorage.getLinkman(), "联系人不能为空");
+        Assert.isNull(instorage.getGoodsids(), "物资不能为空");
+        Assert.isNull(instorage.getAmount(), "物资数量不能为空");
+
+        try {
+            instorageServiceImpl.updInstorageInfo(instorage);
+        } catch (Exception e) {
+            return Result.ok("发生未知错误！");
+        }
+        return Result.ok();
+    }
+
+    /**
+     * 删除入库信息
+     * @param msg idJson对象
+     * @return 是否成功
+     */
+    @PostMapping("/delInstorageInfo/{msg}")
+    public Result delInstorageInfo(@PathVariable("msg") String msg) {
+        Integer id = JsonUtils.stringToObj(msg, Integer.class);
+
+        try {
+            instorageServiceImpl.delInstorageInfo(id);
+        } catch (Exception e) {
+            return Result.ok("发生未知错误！");
+        }
+        return Result.ok();
+    }
 }

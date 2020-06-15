@@ -95,4 +95,14 @@ public class OutstorageServiceImpl implements OutstorageService {
         }
         return null;
     }
+
+    @Override
+    public Integer updOutstorageInfo(Outstorage out) {
+        return outstorageMapper.updOutstorageInfo(out);
+    }
+
+    @Override
+    public Integer delOutstorageInfo(Integer id) {
+        return outstorageMapper.delOutstorageInfo(id);
+    }
 }

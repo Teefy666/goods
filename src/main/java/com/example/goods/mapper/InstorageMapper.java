@@ -1,6 +1,7 @@
 package com.example.goods.mapper;
 
 import com.example.goods.entity.Instorage;
+import com.example.goods.entity.Outstorage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -42,4 +43,18 @@ public interface InstorageMapper {
      * @return 是否成功
      */
     Integer updAmount(@Param("goodsid") Integer goodsid, @Param("amount") Integer amount);
+
+    /**
+     * 修改入库信息
+     * @param in 待修改的入库信息
+     * @return 是否成功
+     */
+    Integer updInstorageInfo(@Param("in") Instorage in);
+
+    /**
+     * 删除入库信息
+     * @param id 入库id
+     * @return 是否成功
+     */
+    Integer delInstorageInfo(@Param("id") Integer id);
 }

@@ -36,4 +36,14 @@
     <update id="updAmount">
         update inventory set amount = amount + #{amount} where goodsid = #{goodsid}
     </update>
+
+    <update id="updInstorageInfo" parameterType="com.example.goods.entity.Instorage">
+        update outstorage
+        set company = #{in.company}, department = #{in.department}, phone = #{in.phone},
+            linkman = #{in.linkman}, goodsids = #{in.goodsids}, amount = #{in.amount}
+        where id = #{in.id}
+    </update>
+    <delete id="delInstorageInfo" parameterType="int">
+        delete from instorage where id = #{id}
+    </delete>
 </mapper>

@@ -59,4 +59,14 @@ public class InstorageServiceImpl implements InstorageService {
         }
         return null;
     }
+
+    @Override
+    public Integer updInstorageInfo(Instorage in) {
+        return instorageMapper.updInstorageInfo(in);
+    }
+
+    @Override
+    public Integer delInstorageInfo(Integer id) {
+        return instorageMapper.delInstorageInfo(id);
+    }
 }

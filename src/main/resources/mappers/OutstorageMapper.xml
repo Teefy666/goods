@@ -52,4 +52,14 @@
     <select id="selOutstorageByid" parameterType="int" resultType="com.example.goods.entity.Outstorage">
         select * from outstorage where id = #{id}
     </select>
+
+    <update id="updOutstorageInfo" parameterType="com.example.goods.entity.Outstorage">
+        update outstorage
+        set company = #{out.company}, department = #{out.department}, phone = #{out.phone},
+            linkman = #{out.linkman}, goodsids = #{out.goodsids}, amount = #{out.amount}
+        where id = #{out.id}
+    </update>
+    <delete id="delOutstorageInfo" parameterType="int">
+        delete from outstorage where id = #{id}
+    </delete>
 </mapper>

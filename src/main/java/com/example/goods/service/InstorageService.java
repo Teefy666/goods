@@ -1,5 +1,6 @@
 package com.example.goods.service;
 
+import com.example.goods.entity.Outstorage;
 import com.example.goods.vo.Instorage;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,18 @@ public interface InstorageService {
      * @return 是否成功
      */
     Integer insInstorageInfo(com.example.goods.entity.Instorage in);
+
+    /**
+     * 修改入库信息
+     * @param in 待修改的入库信息
+     * @return 是否成功
+     */
+    Integer updInstorageInfo(com.example.goods.entity.Instorage in);
+
+    /**
+     * 删除入库信息
+     * @param id 入库id
+     * @return 是否成功
+     */
+    Integer delInstorageInfo(Integer id);
 }
