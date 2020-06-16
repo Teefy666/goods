@@ -10,10 +10,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class User {
+    private String phone;
     private String name;
     private Integer age;
     private String gender;
-    private String phone;
     private String remark;
     private Integer departmentid;
     private Integer roleid;
