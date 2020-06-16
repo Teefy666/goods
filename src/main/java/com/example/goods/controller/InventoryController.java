@@ -53,6 +53,7 @@ public class InventoryController {
      * @param msg 物资id，数量
      * @return 库存信息
      */
+    @PostMapping("/updAmount/{msg}")
     public Result updAmount(@PathVariable("msg") String msg) {
         HashMap map = JsonUtils.stringToObj(msg, HashMap.class);
         String idStr = null;
