@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * @author QG
@@ -40,5 +43,25 @@ public class JsonUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 将Json字符串转化为地址栏
+     * @param jsonStr 待转换的Json字符串
+     * @return 转化后的URL字符串
+     * @throws UnsupportedEncodingException
+     */
+    public static String setJsonToUrl(String jsonStr) throws UnsupportedEncodingException {
+        return URLEncoder.encode(jsonStr, "utf-8");
+    }
+
+    /**
+     * 将从URL获取的值转化为Json字符串
+     * @param jsonStr 从地址栏获取的值
+     * @return 转化后的Json字符串
+     * @throws UnsupportedEncodingException
+     */
+    public static String getJsonFromUrl(String jsonStr) throws UnsupportedEncodingException {
+        return URLDecoder.decode(jsonStr, "utf-8");
     }
 }

@@ -31,19 +31,19 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public int updType(Type type) {
+    public Integer updType(Type type) {
         return typeMapper.updType(type);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public int insType(Type type) {
-        return typeMapper.insType(type);
+    public Integer insType(String name) {
+        return typeMapper.insType(name);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public int delType(Integer id) {
+    public Integer delType(Integer id) {
         return typeMapper.delType(id);
     }
 }

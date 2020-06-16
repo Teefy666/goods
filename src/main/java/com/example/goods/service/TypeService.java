@@ -23,19 +23,19 @@ public interface TypeService {
      * @param type type对象
      * @return 是否成功
      */
-    int updType(@Param("type") Type type);
+    Integer updType(Type type);
 
     /**
      * 添加type
-     * @param type type对象
+     * @param name type name
      * @return 是否成功
      */
-    int insType(@Param("type") Type type);
+    Integer insType(String name);
 
     /**
      * 删除type
      * @param id type id
      * @return 是否成功
      */
-    int delType(@Param("id") Integer id);
+    Integer delType(Integer id);
 }

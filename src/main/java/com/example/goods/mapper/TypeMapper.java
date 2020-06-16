@@ -28,10 +28,10 @@ public interface TypeMapper {
 
     /**
      * 添加type
-     * @param type type对象
+     * @param name type name
      * @return 是否成功
      */
-    Integer insType(@Param("type") Type type);
+    Integer insType(@Param("name") String name);
 
     /**
      * 删除type

@@ -10,6 +10,7 @@ import com.example.goods.utils.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author Administrator
@@ -37,12 +38,13 @@ public class TypeController {
      */
     @PostMapping("/addTypes/{msg}")
     public Result addTypes(@PathVariable("msg") String msg) {
-        Type type = JsonUtils.stringToObj(msg, Type.class);
 
-        Assert.isNull(type, "类型不能为空");
+        String name = JsonUtils.stringToObj(msg, String.class);
+
+        Assert.isNull(name, "类型不能为空");
 
         try {
-            typeServiceImpl.insType(type);
+            typeServiceImpl.insType(name);
         } catch (Exception e) {
             return Result.error("发生未知错误！");
         }
@@ -74,7 +76,14 @@ public class TypeController {
      */
     @PostMapping("/delTypes/{msg}")
     public Result delTypes(@PathVariable("msg") String msg) {
-        Integer id = JsonUtils.stringToObj(msg, Integer.class);
+
+        String json = null;
+        try {
+            json = JsonUtils.getJsonFromUrl(msg);
+        } catch (UnsupportedEncodingException e) {
+            return Result.error("参数格式错误！");
+        }
+        Integer id = JsonUtils.stringToObj(json, Integer.class);
 
         Assert.isNull(id, "id不能为空");
         try {
