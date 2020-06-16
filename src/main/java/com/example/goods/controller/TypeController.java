@@ -39,12 +39,10 @@ public class TypeController {
     @PostMapping("/addTypes/{msg}")
     public Result addTypes(@PathVariable("msg") String msg) {
 
-        String name = JsonUtils.stringToObj(msg, String.class);
-
-        Assert.isNull(name, "类型不能为空");
+        Assert.isBlank(msg, "类型不能为空");
 
         try {
-            typeServiceImpl.insType(name);
+            typeServiceImpl.insType(msg);
         } catch (Exception e) {
             return Result.error("发生未知错误！");
         }
@@ -76,17 +74,10 @@ public class TypeController {
      */
     @PostMapping("/delTypes/{msg}")
     public Result delTypes(@PathVariable("msg") String msg) {
+        Assert.isBlank(msg, "id不能为空");
 
-        String json = null;
         try {
-            json = JsonUtils.getJsonFromUrl(msg);
-        } catch (UnsupportedEncodingException e) {
-            return Result.error("参数格式错误！");
-        }
-        Integer id = JsonUtils.stringToObj(json, Integer.class);
-
-        Assert.isNull(id, "id不能为空");
-        try {
+            Integer id = Integer.parseInt(msg);
             typeServiceImpl.delType(id);
         } catch (Exception e) {
             return Result.error("发生未知错误！");
