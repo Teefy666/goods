@@ -27,6 +27,9 @@ public class OutstorageServiceImpl implements OutstorageService {
     public com.example.goods.vo.Outstorage selOutstorageInfo(Integer type, String linkman) {
         //先查询发放信息
         Outstorage outstorage = outstorageMapper.selOutstorageInfo(type, linkman);
+        if (outstorage == null) {
+            return null;
+        }
         //转化
         com.example.goods.vo.Outstorage outstorage1 = new com.example.goods.vo.Outstorage(outstorage);
         //查询出发放信息附带的库存资料
@@ -62,7 +65,7 @@ public class OutstorageServiceImpl implements OutstorageService {
             if (amountList.get(i) > amounts.get(i)) {
                 throw new RRException("库存数量不足！");
             } else {
-                outstorageMapper.updAmount(goodsidsList.get(i), amounts.get(i) - amountList.get(i));
+                outstorageMapper.updAmount(goodsidsList.get(i), amountList.get(i));
             }
         }
         return null;
@@ -75,7 +78,8 @@ public class OutstorageServiceImpl implements OutstorageService {
     }
 
     @Override
-    public Integer passUserApply(Integer goodsid) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Integer passUserApply(Integer goodsid){
         Outstorage out = outstorageMapper.selOutstorageByid(goodsid);
 
         String goodsids = out.getGoodsids();
@@ -90,18 +94,20 @@ public class OutstorageServiceImpl implements OutstorageService {
             if (amountList.get(i) > amounts.get(i)) {
                 throw new RRException("库存数量不足！");
             } else {
-                outstorageMapper.updAmount(goodsidsList.get(i), amounts.get(i) - amountList.get(i));
+                outstorageMapper.updAmount(goodsidsList.get(i), amountList.get(i));
             }
         }
         return null;
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public Integer updOutstorageInfo(Outstorage out) {
         return outstorageMapper.updOutstorageInfo(out);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public Integer delOutstorageInfo(Integer id) {
         return outstorageMapper.delOutstorageInfo(id);
     }

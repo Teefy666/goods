@@ -5,7 +5,7 @@
     <select id="selInstorageInfo" resultType="com.example.goods.entity.Instorage">
         select * from instorage
         <where>
-            <if test="type!=null">
+            <if test="type!=null and type!=0">
                 and type = #{type}
             </if>
             <if test="linkman!=null and linkman!=''">
@@ -38,9 +38,9 @@
     </update>
 
     <update id="updInstorageInfo" parameterType="com.example.goods.entity.Instorage">
-        update outstorage
+        update instorage
         set company = #{in.company}, department = #{in.department}, phone = #{in.phone},
-            linkman = #{in.linkman}, goodsids = #{in.goodsids}, amount = #{in.amount}
+            type = #{in.type}, linkman = #{in.linkman}, goodsids = #{in.goodsids}, amount = #{in.amount}
         where id = #{in.id}
     </update>
     <delete id="delInstorageInfo" parameterType="int">

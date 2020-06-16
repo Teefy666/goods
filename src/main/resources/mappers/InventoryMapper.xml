@@ -3,7 +3,7 @@
 <mapper namespace="com.example.goods.mapper.InventoryMapper">
     <!--查询库存-->
     <select id="selInventory" resultType="java.util.HashMap">
-        select g.code code, g.name name, g.unit unit, g.specifications specifications, g.id goodsId
+        select g.code code, g.name name, g.unit unit, g.specifications specifications, g.id goodsId,
                i.amount amount, i.id inventoryId, g.producer producer, g.remark remark, g.image image,
                t.name typeName, t.id typeId
         from inventory i
@@ -32,4 +32,8 @@
     <delete id="delInventory" parameterType="int">
         delete from inventory where goodsid = #{id}
     </delete>
+
+    <update id="updAmounts">
+        update inventory set amount = #{amount} where goodsid = #{id}
+    </update>
 </mapper>

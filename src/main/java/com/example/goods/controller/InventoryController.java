@@ -15,11 +15,11 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
-/**
+/**i
  * @author Administrator
  * @date 2020/6/13
  */
-@RequestMapping("/Inventory")
+@RequestMapping("/inventory")
 @RestController
 public class InventoryController {
 
@@ -35,16 +35,45 @@ public class InventoryController {
     public Result getInventory(@PathVariable("msg") String msg) {
         HashMap map = JsonUtils.stringToObj(msg, HashMap.class);
         String idStr = null;
+        Integer id = null;
         try {
             idStr = (String) map.get("id");
+            id = Integer.parseInt(idStr);
         } catch (Exception e) {
-            throw new RRException("类型id不能为空！");
+            Result.error("类型id不能为空！");
         }
 
-        Integer id = Integer.parseInt(idStr);
         String name = (String) map.get("name");
-
         List<HashMap<String, String>> lists = inventoryServiceImpl.selInventory(id, name);
         return Result.ok().put("lists", lists);
+    }
+
+    /**
+     * 修改库存数量
+     * @param msg 物资id，数量
+     * @return 库存信息
+     */
+    public Result updAmount(@PathVariable("msg") String msg) {
+        HashMap map = JsonUtils.stringToObj(msg, HashMap.class);
+        String idStr = null;
+        String amountStr = null;
+        Integer id = null;
+        Integer amount = null;
+        try {
+            idStr = (String) map.get("id");
+            amountStr = (String) map.get("amount");
+
+            id = Integer.parseInt(idStr);
+            amount = Integer.parseInt(amountStr);
+        } catch (Exception e) {
+            Result.error("类型id不能为空！");
+        }
+
+        try {
+            inventoryServiceImpl.updAmounts(id, amount);
+        } catch (Exception e) {
+            Result.error("发生未知错误！");
+        }
+        return Result.ok();
     }
 }

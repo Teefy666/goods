@@ -2,14 +2,8 @@ package com.example.goods.controller;
 
 import com.example.goods.entity.Goods;
 import com.example.goods.service.GoodsService;
-import com.example.goods.utils.Assert;
-import com.example.goods.utils.JsonUtils;
-import com.example.goods.utils.RRException;
-import com.example.goods.utils.Result;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.goods.utils.*;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -27,15 +21,18 @@ public class GoodsController {
 
     /**
      * 添加物资资料
-     * @param msg 物资资料Json对象
+     * @param goods 物资资料对象
      * @return 是否成功
      */
-    @PostMapping("/addGoods/{msg}")
-    public Result addGoods(@PathVariable("msg") String msg) {
-        Goods goods = JsonUtils.stringToObj("msg", Goods.class);
-        //验证
-        Assert.isNull(goods, "goods不能为空");
+    @PostMapping("/addGoods")
+    public Result addGoods(@RequestBody Goods goods) {
+        Assert.isNull(goods.getTypeid(), "类型id不能为空！");
+        Assert.isBlank(goods.getName(), "物资名不能为空！");
+        Assert.isBlank(goods.getUnit(), "单位不能为空！");
+        Assert.isBlank(goods.getSpecifications(), "规格不能为空！");
+        Assert.isBlank(goods.getProducer(), "生产厂家不能为空！");
 
+        goods.setCode(CodeUtil.getGoodsCode());
         try {
             goodsServiceImpl.insGoods(goods);
         } catch (Exception e) {
@@ -66,15 +63,18 @@ public class GoodsController {
 
     /**
      * 修改物资资料
-     * @param msg 资料json对象
+     * @param goods 资料对象
      * @return 是否成功
      */
-    @PostMapping("/updGoods/{msg}")
-    public Result updGoods(@PathVariable("msg") String msg) {
-        Goods goods = JsonUtils.stringToObj("msg", Goods.class);
-
-        //验证
-        Assert.isNull(goods, "goods不能为空");
+    @PostMapping("/updGoods")
+    public Result updGoods(@RequestBody Goods goods) {
+        Assert.isNull(goods.getId(), "id不能为空！");
+        Assert.isBlank(goods.getCode(), "编码不能为空！");
+        Assert.isNull(goods.getTypeid(), "类型id不能为空！");
+        Assert.isBlank(goods.getName(), "物资名不能为空！");
+        Assert.isBlank(goods.getUnit(), "单位不能为空！");
+        Assert.isBlank(goods.getSpecifications(), "规格不能为空！");
+        Assert.isBlank(goods.getProducer(), "生产厂家不能为空！");
 
         try {
             goodsServiceImpl.updGoods(goods);
@@ -82,7 +82,7 @@ public class GoodsController {
             return Result.error("发生未知错误！");
         }
 
-        return Result.ok("添加成功！");
+        return Result.ok("修改成功！");
     }
 
     /**
@@ -92,11 +92,10 @@ public class GoodsController {
      */
     @PostMapping("/delGoods/{msg}")
     public Result delGoods(@PathVariable("msg") String msg) {
-        Integer id = JsonUtils.stringToObj(msg, Integer.class);
-
-        Assert.isNull(id, "id不能为空");
+        Assert.isNull(msg, "id不能为空");
 
         try {
+            Integer id = Integer.parseInt(msg);
             goodsServiceImpl.delGoods(id);
         } catch (Exception e) {
             return Result.error("发生未知错误！");

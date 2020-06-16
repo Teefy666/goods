@@ -1,19 +1,12 @@
 package com.example.goods.controller;
 
-import com.example.goods.service.InstorageService;
 import com.example.goods.service.OutstorageService;
-import com.example.goods.utils.Assert;
-import com.example.goods.utils.CodeUtil;
-import com.example.goods.utils.JsonUtils;
-import com.example.goods.utils.Result;
-import com.example.goods.vo.Instorage;
+import com.example.goods.utils.*;
 import com.example.goods.vo.Outstorage;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -52,100 +45,95 @@ public class OutstorageController {
 
     /**
      * 添加发放信息
-     * @param msg 入库信息json对象
+     * @param outstorage 入库信息对象
      * @return 是否成功
      */
-    @PostMapping("/addOutstorageInfo/{msg}")
-    public Result addOutstorageInfo(@PathVariable("msg") String msg) {
-
-        Assert.isBlank(msg, "参数不能为空！");
-        com.example.goods.entity.Outstorage outstorage = JsonUtils.stringToObj(msg, com.example.goods.entity.Outstorage.class);
-        Assert.isNull(outstorage, "参数格式异常");
-
+    @PostMapping("/addOutstorageInfo")
+    public Result addOutstorageInfo(@RequestBody com.example.goods.entity.Outstorage outstorage) {
         Assert.isBlank(outstorage.getCompany(), "单位不能为空");
         Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
         Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
-        Assert.isNull(outstorage.getIntime(), "入库时间不能为空");
         Assert.isNull(outstorage.getType(), "入库类型不能为空");
         Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
 
         outstorage.setCode(CodeUtil.getOutstorageCode());
+        outstorage.setIntime(new Date());
         try {
             outstorageServiceImpl.insOutstorageInfo(outstorage);
-        } catch (Exception e) {
-            return Result.ok("发生未知错误！");
+        } catch (RRException e) {
+            return Result.error("库存数量不足！");
+        }  catch (Exception e) {
+            return Result.error("发生未知错误！");
         }
         return Result.ok();
     }
 
     /**
      * 提交用户申请发放
-     * @param msg 入库信息json对象
+     * @param outstorage 入库信息json对象
      * @return 是否成功
      */
-    @PostMapping("/addUserApply/{msg}")
-    public Result addUserApply(@PathVariable("msg") String msg) {
-        Assert.isBlank(msg, "参数不能为空！");
-        com.example.goods.entity.Outstorage outstorage = JsonUtils.stringToObj(msg, com.example.goods.entity.Outstorage.class);
-        Assert.isNull(outstorage, "参数格式异常");
-
+    @PostMapping("/addUserApply")
+    public Result addUserApply(@RequestBody com.example.goods.entity.Outstorage outstorage) {
         Assert.isBlank(outstorage.getCompany(), "单位不能为空");
         Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
         Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
-        Assert.isNull(outstorage.getIntime(), "入库时间不能为空");
-        Assert.isNull(outstorage.getType(), "入库类型不能为空");
         Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
         //生成编码
         outstorage.setCode(CodeUtil.getOutstorageCode());
-
+        outstorage.setType(2);
+        outstorage.setIntime(new Date());
         try {
             outstorageServiceImpl.insUserApply(outstorage);
         } catch (Exception e) {
-            return Result.ok("发生未知错误！");
+            return Result.error("发生未知错误！");
         }
         return Result.ok();
     }
 
+    /**
+     * 通过用户申请
+     * @param msg goodsid
+     * @return 是否成功
+     */
     @PostMapping("/passUserApply/{msg}")
     public Result passUserApply(@PathVariable("msg") String msg) {
-        Integer goodsid = JsonUtils.stringToObj(msg, Integer.class);
-
-        Assert.isNull(goodsid, "goodsid不能为空");
 
         try {
+            Integer goodsid = Integer.parseInt(msg);
             outstorageServiceImpl.passUserApply(goodsid);
+        } catch (RRException e) {
+            return Result.error("库存数量不足！");
         } catch (Exception e) {
-            return Result.ok("发生未知错误！");
+            return Result.error("发生未知错误！");
         }
         return Result.ok();
     }
 
     /**
      * 修改发放信息
-     * @param msg 待修改的信息json对象
+     * @param outstorage 待修改的发放信息对象
      * @return 是否成功
      */
-    @PostMapping("/updOutstorageInfo/{msg}")
-    public Result updOutstorageInfo(@PathVariable("msg") String msg) {
-
-        Assert.isBlank(msg, "参数不能为空！");
-        com.example.goods.entity.Outstorage outstorage = JsonUtils.stringToObj(msg, com.example.goods.entity.Outstorage.class);
-        Assert.isNull(outstorage, "参数格式异常");
+    @PostMapping("/updOutstorageInfo")
+    public Result updOutstorageInfo(@RequestBody com.example.goods.entity.Outstorage outstorage) {
+        Assert.isNull(outstorage.getId(), "id不能为空");
         Assert.isBlank(outstorage.getCompany(), "单位不能为空");
         Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
         Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
         Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
+        Assert.isNull(outstorage.getType(), "类型不能为空");
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
 
         try {
             outstorageServiceImpl.updOutstorageInfo(outstorage);
         } catch (Exception e) {
-            return Result.ok("发生未知错误！");
+            return Result.error("发生未知错误！");
         }
         return Result.ok();
     }
@@ -157,12 +145,12 @@ public class OutstorageController {
      */
     @PostMapping("/delOutstorageInfo/{msg}")
     public Result delOutstorageInfo(@PathVariable("msg") String msg) {
-        Integer id = JsonUtils.stringToObj(msg, Integer.class);
 
         try {
+            Integer id = Integer.parseInt(msg);
             outstorageServiceImpl.delOutstorageInfo(id);
         } catch (Exception e) {
-            return Result.ok("发生未知错误！");
+            return Result.error("发生未知错误！");
         }
         return Result.ok();
     }

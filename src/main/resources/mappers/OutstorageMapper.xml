@@ -5,7 +5,7 @@
     <select id="selOutstorageInfo" resultType="com.example.goods.entity.Outstorage">
         select * from outstorage
         <where>
-            <if test="type!=null">
+            <if test="type!=null and type!=0">
                 and type = #{type}
             </if>
             <if test="linkman!=null and linkman!=''">

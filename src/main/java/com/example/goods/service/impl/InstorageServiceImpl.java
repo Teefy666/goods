@@ -27,6 +27,9 @@ public class InstorageServiceImpl implements InstorageService {
     public com.example.goods.vo.Instorage selInstorageInfo(Integer type, String linkman) {
         //先查询出入库信息
         Instorage instorage = instorageMapper.selInstorageInfo(type, linkman);
+        if (instorage == null) {
+            return null;
+        }
         //转换成VO类
         com.example.goods.vo.Instorage instorage1 = new com.example.goods.vo.Instorage(instorage);
         //查询出入库信息附带的库存资料

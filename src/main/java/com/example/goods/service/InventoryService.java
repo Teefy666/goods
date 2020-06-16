@@ -17,4 +17,12 @@ public interface InventoryService {
      * @return 库存信息
      */
     List<HashMap<String, String>> selInventory(Integer id, String name);
+
+    /**
+     * 修改数量
+     * @param id 物资id
+     * @param amount 数量
+     * @return 是否成功
+     */
+    Integer updAmounts(Integer id, Integer amount);
 }

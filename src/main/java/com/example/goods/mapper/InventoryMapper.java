@@ -40,4 +40,12 @@ public interface InventoryMapper {
      * @return 是否成功
      */
     Integer delInventory(@Param("id")Integer id);
+
+    /**
+     * 修改数量
+     * @param id 物资id
+     * @param amount 数量
+     * @return 是否成功
+     */
+    Integer updAmounts(@Param("id")Integer id, @Param("amount") Integer amount);
 }

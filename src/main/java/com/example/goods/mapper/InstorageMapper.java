@@ -1,7 +1,6 @@
 package com.example.goods.mapper;
 
 import com.example.goods.entity.Instorage;
-import com.example.goods.entity.Outstorage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
