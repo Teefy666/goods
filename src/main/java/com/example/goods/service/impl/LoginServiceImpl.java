@@ -32,7 +32,7 @@ public  class LoginServiceImpl implements LoginService {
         if (res!=null){
             return res;
        }else{
-            User defalutUser=new User("游客",null,null,phone,null,1,1);
+            User defalutUser=new User(phone,"游客",null,null,null,1,1);
             userMapper.insertUser(defalutUser);
             return defalutUser;
         }

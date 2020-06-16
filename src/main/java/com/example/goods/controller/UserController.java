@@ -39,6 +39,7 @@ public class UserController {
      */
     @RequestMapping("/user/update/{msg}")
     public String updateUser(@PathVariable("msg") String msg) {
+        System.out.println(msg);
         User userUpdated=JsonUtils.stringToObj(msg, User.class);
         Boolean flag=userService.updateUserInfo(userUpdated);
         if (flag){

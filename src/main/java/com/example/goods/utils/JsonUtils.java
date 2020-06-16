@@ -1,5 +1,6 @@
 package com.example.goods.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.StringUtils;
 
@@ -19,30 +20,26 @@ public class JsonUtils {
      * 对象转字符串
      */
     public static <T> String objToString(T obj) {
-        if (obj == null) {
-            return null;
-        }
+        String string = null;
         try {
-            return obj instanceof String ? (String) obj : objectMapper.writeValueAsString(obj);
+            string = JSON.toJSONString(obj);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return string;
     }
 
     /**
      * 字符串转对象
      */
     public static <T> T stringToObj(String str, Class<T> clazz) {
-        if (StringUtils.isEmpty(str) || clazz == null) {
-            return null;
-        }
+        T t = null;
         try {
-            return clazz.equals(String.class) ? (T) str : objectMapper.readValue(str, clazz);
-        } catch (IOException e) {
+            t = JSON.parseObject(str, clazz);
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return t;
     }
 
     /**
