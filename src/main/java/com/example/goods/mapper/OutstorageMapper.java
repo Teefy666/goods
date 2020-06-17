@@ -20,7 +20,7 @@ public interface OutstorageMapper {
      * @param linkman 联系人
      * @return 发放信息
      */
-    Outstorage selOutstorageInfo(@Param("type") Integer type, @Param("linkman") String linkman);
+    List<Outstorage> selOutstorageInfo(@Param("type") Integer type, @Param("linkman") String linkman);
 
     /**
      * 查询对应的物资信息

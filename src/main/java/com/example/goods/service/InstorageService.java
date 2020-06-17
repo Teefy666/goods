@@ -4,6 +4,8 @@ import com.example.goods.entity.Outstorage;
 import com.example.goods.vo.Instorage;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author Administrator
  * @date 2020/6/14
@@ -15,7 +17,7 @@ public interface InstorageService {
      * @param linkman 联系人
      * @return 入库信息
      */
-    Instorage selInstorageInfo(Integer type, String linkman);
+    List<Instorage> selInstorageInfo(Integer type, String linkman);
 
     /**
      * 添加入库信息

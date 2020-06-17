@@ -10,7 +10,7 @@
         join goods g on i.goodsid = g.id
         join type t on g.typeid = t.id
         <where>
-            <if test="id!=null">
+            <if test="id!=null and id!=0">
                 and t.id = #{id}
             </if>
             <if test="name!=null and name!=''">

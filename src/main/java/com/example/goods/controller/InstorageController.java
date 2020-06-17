@@ -39,9 +39,7 @@ public class InstorageController {
         Integer type = Integer.parseInt(typeStr);
         String linkman = (String) map.get("linkman");
 
-        Instorage instorage = instorageServiceImpl.selInstorageInfo(type, linkman);
-
-        return Result.ok().put("instorage", instorage);
+        return Result.ok().put("instorage", instorageServiceImpl.selInstorageInfo(type, linkman));
     }
 
     /**
@@ -100,6 +98,7 @@ public class InstorageController {
      */
     @PostMapping("/delInstorageInfo/{msg}")
     public Result delInstorageInfo(@PathVariable("msg") String msg) {
+        Assert.isBlank(msg, "id不能为空");
 
         try {
             Integer id = Integer.parseInt(msg);

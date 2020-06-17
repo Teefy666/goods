@@ -28,7 +28,7 @@ public class InventoryController {
 
     /**
      * 查询库存信息
-     * @param msg 库存id，name
+     * @param msg 类型id，物资name
      * @return 库存信息
      */
     @PostMapping("/getInventory/{msg}")

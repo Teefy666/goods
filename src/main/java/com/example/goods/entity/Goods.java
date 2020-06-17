@@ -9,7 +9,6 @@ import java.util.Date;
  * @date 2020/5/25
  */
 @Data
-@AllArgsConstructor
 public class Goods {
  	 private Integer id;
  	 private String code;

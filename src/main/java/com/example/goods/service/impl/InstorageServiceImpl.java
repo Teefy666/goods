@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,25 +25,31 @@ public class InstorageServiceImpl implements InstorageService {
     private InstorageMapper instorageMapper;
 
     @Override
-    public com.example.goods.vo.Instorage selInstorageInfo(Integer type, String linkman) {
+    public List<com.example.goods.vo.Instorage> selInstorageInfo(Integer type, String linkman) {
         //先查询出入库信息
-        Instorage instorage = instorageMapper.selInstorageInfo(type, linkman);
-        if (instorage == null) {
+        List<Instorage> instorage = instorageMapper.selInstorageInfo(type, linkman);
+        if (instorage == null || instorage.size() == 0) {
             return null;
         }
-        //转换成VO类
-        com.example.goods.vo.Instorage instorage1 = new com.example.goods.vo.Instorage(instorage);
-        //查询出入库信息附带的库存资料
-        List<HashMap<String, Object>> list = instorageMapper.selGoodsInfos(instorage1.getGoodsidsList());
+        //返回的list
+        List<com.example.goods.vo.Instorage> instorages = new ArrayList<>();
+        //遍历入库信息
+        for (Instorage in : instorage) {
+            //转换成VO类
+            com.example.goods.vo.Instorage instorage1 = new com.example.goods.vo.Instorage(in);
+            //查询出入库信息附带的库存资料
+            List<HashMap<String, Object>> list = instorageMapper.selGoodsInfos(instorage1.getGoodsidsList());
 
-        List<Integer> amountList = instorage1.getAmountList();
-        //把库存资料和库存数量匹配
-        for (int i = 0; i < list.size(); i++){
-            list.get(i).put("amount", amountList.get(i));
+            List<Integer> amountList = instorage1.getAmountList();
+            //把库存资料和库存数量匹配
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).put("amount", amountList.get(i));
+            }
+
+            instorage1.setGoodsList(list);
+            instorages.add(instorage1);
         }
-
-        instorage1.setGoodsList(list);
-        return instorage1;
+        return instorages;
     }
 
     @Override

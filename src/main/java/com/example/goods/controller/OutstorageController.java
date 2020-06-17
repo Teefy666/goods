@@ -22,7 +22,7 @@ public class OutstorageController {
 
     /**
      * 获取发放信息
-     * @param msg type，联系人 json对象
+     * @param msg type，联系人
      * @return 发放信息
      */
     @PostMapping("/getOutstorageInfo/{msg}")
@@ -38,14 +38,12 @@ public class OutstorageController {
         Integer type = Integer.parseInt(typeStr);
         String linkman = (String) map.get("linkman");
 
-        Outstorage outstorage = outstorageServiceImpl.selOutstorageInfo(type, linkman);
-
-        return Result.ok().put("outstorage", outstorage);
+        return Result.ok().put("outstorage", outstorageServiceImpl.selOutstorageInfo(type, linkman));
     }
 
     /**
      * 添加发放信息
-     * @param outstorage 入库信息对象
+     * @param outstorage 发放信息对象
      * @return 是否成功
      */
     @PostMapping("/addOutstorageInfo")
@@ -72,7 +70,7 @@ public class OutstorageController {
 
     /**
      * 提交用户申请发放
-     * @param outstorage 入库信息json对象
+     * @param outstorage 发放信息对象
      * @return 是否成功
      */
     @PostMapping("/addUserApply")
@@ -104,8 +102,8 @@ public class OutstorageController {
     public Result passUserApply(@PathVariable("msg") String msg) {
 
         try {
-            Integer goodsid = Integer.parseInt(msg);
-            outstorageServiceImpl.passUserApply(goodsid);
+            Integer id = Integer.parseInt(msg);
+            outstorageServiceImpl.passUserApply(id);
         } catch (RRException e) {
             return Result.error("库存数量不足！");
         } catch (Exception e) {
@@ -140,11 +138,12 @@ public class OutstorageController {
 
     /**
      * 删除发放信息
-     * @param msg idJson对象
+     * @param msg id
      * @return 是否成功
      */
     @PostMapping("/delOutstorageInfo/{msg}")
     public Result delOutstorageInfo(@PathVariable("msg") String msg) {
+        Assert.isBlank(msg, "id不能为空");
 
         try {
             Integer id = Integer.parseInt(msg);

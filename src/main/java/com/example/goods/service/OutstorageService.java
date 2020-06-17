@@ -3,6 +3,8 @@ package com.example.goods.service;
 import com.example.goods.entity.Outstorage;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author Administrator
  * @date 2020/6/14
@@ -15,7 +17,7 @@ public interface OutstorageService {
      * @param linkman 联系人
      * @return 发放信息
      */
-    com.example.goods.vo.Outstorage selOutstorageInfo(Integer type, String linkman);
+    List<com.example.goods.vo.Outstorage> selOutstorageInfo(Integer type, String linkman);
 
     /**
      * 添加发放信息
@@ -33,10 +35,10 @@ public interface OutstorageService {
 
     /**
      * 通过申请
-     * @param goodsid 物资id
+     * @param id 发放信息id
      * @return 是否成功
      */
-    Integer passUserApply(Integer goodsid);
+    Integer passUserApply(Integer id);
 
     /**
      * 修改发放信息

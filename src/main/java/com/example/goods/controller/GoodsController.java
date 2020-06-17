@@ -42,8 +42,8 @@ public class GoodsController {
     }
 
     /**
-     * 根据类型id查询物资资料
-     * @param msg 物资资料id，name
+     * 查询物资资料
+     * @param msg 类型id，物资name
      * @return 物资资料
      */
     @PostMapping("/getGoods/{msg}")
@@ -92,7 +92,7 @@ public class GoodsController {
      */
     @PostMapping("/delGoods/{msg}")
     public Result delGoods(@PathVariable("msg") String msg) {
-        Assert.isNull(msg, "id不能为空");
+        Assert.isBlank(msg, "id不能为空");
 
         try {
             Integer id = Integer.parseInt(msg);

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,26 +25,32 @@ public class OutstorageServiceImpl implements OutstorageService {
     private OutstorageMapper outstorageMapper;
 
     @Override
-    public com.example.goods.vo.Outstorage selOutstorageInfo(Integer type, String linkman) {
+    public List<com.example.goods.vo.Outstorage> selOutstorageInfo(Integer type, String linkman) {
         //先查询发放信息
-        Outstorage outstorage = outstorageMapper.selOutstorageInfo(type, linkman);
+        List<Outstorage> outstorage = outstorageMapper.selOutstorageInfo(type, linkman);
         if (outstorage == null) {
             return null;
         }
-        //转化
-        com.example.goods.vo.Outstorage outstorage1 = new com.example.goods.vo.Outstorage(outstorage);
-        //查询出发放信息附带的库存资料
-        List<HashMap<String, Object>> list = outstorageMapper.selGoodsInfos(outstorage1.getGoodsidsList());
 
-        List<Integer> amountList = outstorage1.getAmountList();
-        //把库存资料和库存数量匹配
-        for (int i = 0; i < list.size(); i++){
-            list.get(i).put("amount", amountList.get(i));
+        List<com.example.goods.vo.Outstorage> outstorages = new ArrayList<>();
+
+        for (Outstorage out : outstorage) {
+            //转化
+            com.example.goods.vo.Outstorage outstorage1 = new com.example.goods.vo.Outstorage(out);
+            //查询出发放信息附带的库存资料
+            List<HashMap<String, Object>> list = outstorageMapper.selGoodsInfos(outstorage1.getGoodsidsList());
+
+            List<Integer> amountList = outstorage1.getAmountList();
+            //把库存资料和库存数量匹配
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).put("amount", amountList.get(i));
+            }
+
+            outstorage1.setGoodsList(list);
+            outstorages.add(outstorage1);
         }
 
-        outstorage1.setGoodsList(list);
-
-        return outstorage1;
+        return outstorages;
     }
 
     @Override
@@ -79,8 +86,8 @@ public class OutstorageServiceImpl implements OutstorageService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public Integer passUserApply(Integer goodsid){
-        Outstorage out = outstorageMapper.selOutstorageByid(goodsid);
+    public Integer passUserApply(Integer id){
+        Outstorage out = outstorageMapper.selOutstorageByid(id);
 
         String goodsids = out.getGoodsids();
         String amount = out.getAmount();

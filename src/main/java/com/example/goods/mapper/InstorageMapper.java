@@ -19,7 +19,7 @@ public interface InstorageMapper {
      * @param linkman 联系人
      * @return 入库信息
      */
-    Instorage selInstorageInfo(@Param("type") Integer type, @Param("linkman") String linkman);
+    List<Instorage> selInstorageInfo(@Param("type") Integer type, @Param("linkman") String linkman);
 
     /**
      * 查询入库信息附带的物资信息
