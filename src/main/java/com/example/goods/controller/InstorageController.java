@@ -38,7 +38,7 @@ public class InstorageController {
 
         Integer type = Integer.parseInt(typeStr);
         String linkman = (String) map.get("linkman");
-
+        //直接返回
         return Result.ok().put("instorage", instorageServiceImpl.selInstorageInfo(type, linkman));
     }
 

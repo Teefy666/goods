@@ -31,7 +31,7 @@ public class InstorageServiceImpl implements InstorageService {
         if (instorage == null || instorage.size() == 0) {
             return null;
         }
-        //返回的list
+        //全部发放信息
         List<com.example.goods.vo.Instorage> instorages = new ArrayList<>();
         //遍历入库信息
         for (Instorage in : instorage) {

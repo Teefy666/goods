@@ -37,7 +37,7 @@ public class OutstorageController {
 
         Integer type = Integer.parseInt(typeStr);
         String linkman = (String) map.get("linkman");
-
+        //直接返回
         return Result.ok().put("outstorage", outstorageServiceImpl.selOutstorageInfo(type, linkman));
     }
 

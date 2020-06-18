@@ -31,7 +31,7 @@ public class OutstorageServiceImpl implements OutstorageService {
         if (outstorage == null) {
             return null;
         }
-
+        //全部发放信息
         List<com.example.goods.vo.Outstorage> outstorages = new ArrayList<>();
 
         for (Outstorage out : outstorage) {
