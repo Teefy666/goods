@@ -41,8 +41,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Integer insGoods(Goods goods) {
+        //先添加
         goodsMapper.insGoods(goods);
-        //获取新的goodsid
+        //再获取新的goodsid
         Integer id = goods.getId();
         //添加goods后添加一个对应的inventory
         inventoryMapper.insInventory(id);
