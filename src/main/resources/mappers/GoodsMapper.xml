@@ -24,7 +24,7 @@
         delete from goods where id = #{id}
     </delete>
     <!--添加物资资料信息-->
-    <insert id="insGoods" parameterType="com.example.goods.entity.Goods"  useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+    <insert id="insGoods" parameterType="com.example.goods.entity.Goods" useGeneratedKeys="true" keyProperty="id">
         insert into goods
         values (default, #{goods.code}, #{goods.typeid}, #{goods.name},
                 #{goods.unit}, #{goods.specifications}, #{goods.producer},
