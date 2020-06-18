@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.goods.mapper.GoodsMapper">
-    <!--查询物资资料-->
+    <!--查询物资资料信息-->
     <select id="selGoods" resultType="java.util.HashMap">
         select g.code code, g.name name, g.unit unit, g.specifications specifications, g.id goodsId,
                i.amount amount, i.id inventoryId, g.producer producer, g.remark remark, g.image image,
