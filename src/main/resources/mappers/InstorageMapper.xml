@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.goods.mapper.InstorageMapper">
     <!--查询入库信息-->
-    <select id="selInstorageInfo" resultType="java.util.List">
+    <select id="selInstorageInfo" resultType="com.example.goods.entity.Instorage">
         select * from instorage
         <where>
             <if test="type!=null and type!=0">
