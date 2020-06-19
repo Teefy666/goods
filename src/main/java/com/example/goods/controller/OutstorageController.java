@@ -56,7 +56,7 @@ public class OutstorageController {
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
 
-
+        //设置编码
         outstorage.setCode(CodeUtil.getOutstorageCode());
         outstorage.setStatus(1);
         outstorage.setIntime(new Date());
