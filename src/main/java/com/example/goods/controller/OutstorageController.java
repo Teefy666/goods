@@ -59,7 +59,7 @@ public class OutstorageController {
         //设置编码
         outstorage.setCode(CodeUtil.getOutstorageCode());
         outstorage.setStatus(1);
-        outstorage.setIntime(new Date());
+        outstorage.setIntime(CalendarUtil.getDate());
         try {
             outstorageServiceImpl.insOutstorageInfo(outstorage);
         } catch (RRException e) {

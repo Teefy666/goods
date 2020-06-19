@@ -58,7 +58,7 @@ public class InstorageController {
         Assert.isNull(instorage.getAmount(), "物资数量不能为空");
         //生成编码
         instorage.setCode(CodeUtil.getInstorageCode());
-        instorage.setIntime(new Date());
+        instorage.setIntime(CalendarUtil.getDate());
         try {
             instorageServiceImpl.insInstorageInfo(instorage);
         } catch (Exception e) {
