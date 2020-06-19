@@ -60,7 +60,7 @@ public class OutstorageController {
         outstorage.setCode(CodeUtil.getOutstorageCode());
         outstorage.setStatus(1);
         //生成时间
-        outstorage.setIntime(CalendarUtil.getDate());
+        outstorage.setOuttime(CalendarUtil.getDate());
         try {
             outstorageServiceImpl.insOutstorageInfo(outstorage);
         } catch (RRException e) {
@@ -88,7 +88,7 @@ public class OutstorageController {
         outstorage.setCode(CodeUtil.getOutstorageCode());
         outstorage.setType(2);
         outstorage.setStatus(0);
-        outstorage.setIntime(new Date());
+        outstorage.setOuttime(new Date());
         try {
             outstorageServiceImpl.insUserApply(outstorage);
         } catch (Exception e) {

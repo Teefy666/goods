@@ -34,7 +34,7 @@
     <insert id="insOutstorageInfo" parameterType="com.example.goods.entity.Outstorage">
         insert into outstorage
         values (default, #{out.code}, #{out.companyid}, #{out.departmentid}, #{out.linkmanid},
-                #{out.phone}, #{out.intime}, #{out.type}, #{out.goodsids}, #{out.amount}, #{out.status});
+                #{out.phone}, #{out.outtime}, #{out.type}, #{out.goodsids}, #{out.amount}, #{out.status});
     </insert>
     <!--添加发放信息后，减少对应库存数量-->
     <update id="updAmount">

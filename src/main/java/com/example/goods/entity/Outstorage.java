@@ -15,7 +15,7 @@ public class Outstorage {
 	private Integer departmentid;
 	private String linkmanid;
 	private String phone;
-	private Date intime;
+	private Date outtime;
 	private Integer type;
 	private String goodsids;
 	private String amount;
