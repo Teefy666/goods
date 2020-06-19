@@ -27,27 +27,27 @@ public class OutstorageServiceImpl implements OutstorageService {
     @Override
     public List<com.example.goods.vo.Outstorage> selOutstorageInfo(Integer type, String linkman) {
         //先查询发放信息
-        List<Outstorage> outstorage = outstorageMapper.selOutstorageInfo(type, linkman);
+        List<com.example.goods.vo.Outstorage> outstorage = outstorageMapper.selOutstorageInfo(type, linkman);
         if (outstorage == null) {
             return null;
         }
         //全部发放信息
         List<com.example.goods.vo.Outstorage> outstorages = new ArrayList<>();
 
-        for (Outstorage out : outstorage) {
+        for (int i = 0; i < outstorage.size(); i++) {
             //转化
-            com.example.goods.vo.Outstorage outstorage1 = new com.example.goods.vo.Outstorage(out);
+            outstorage.get(i).transform();
             //查询出发放信息附带的库存资料
-            List<HashMap<String, Object>> list = outstorageMapper.selGoodsInfos(outstorage1.getGoodsidsList());
+            List<HashMap<String, Object>> list = outstorageMapper.selGoodsInfos(outstorage.get(i).getGoodsidsList());
 
-            List<Integer> amountList = outstorage1.getAmountList();
+            List<Integer> amountList = outstorage.get(i).getAmountList();
             //把库存资料和库存数量匹配
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).put("amount", amountList.get(i));
+            for (int j = 0; j < list.size(); j++) {
+                list.get(j).put("amount", amountList.get(j));
             }
 
-            outstorage1.setGoodsList(list);
-            outstorages.add(outstorage1);
+            outstorage.get(i).setGoodsList(list);
+            outstorages.add(outstorage.get(i));
         }
 
         return outstorages;
@@ -104,6 +104,7 @@ public class OutstorageServiceImpl implements OutstorageService {
                 outstorageMapper.updAmount(goodsidsList.get(i), amountList.get(i));
             }
         }
+
         return null;
     }
 

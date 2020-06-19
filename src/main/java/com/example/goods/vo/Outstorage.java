@@ -13,29 +13,41 @@ import java.util.List;
  */
 @Data
 public class Outstorage {
- 	 private Integer id;
- 	 private String code;
- 	 private String company;
- 	 private String department;
- 	 private String phone;
- 	 private Date outtime;
- 	 private Integer type;
- 	 private String linkman;
- 	 private List<Integer> goodsidsList;
- 	 private List<Integer> amountList;
- 	 private List<HashMap<String, Object>> goodsList;
+	private Integer id;
+	private String code;
+	private String company;
+	private String linkman;
+	private String department;
+	private String phone;
+	private Date outtime;
+	private Integer type;
+	private Integer companyid;
+	private Integer departmentid;
+	private String linkmanid;
+	private String goodsids;
+	private String amount;
+	private Integer status;
+	private List<Integer> goodsidsList;
+	private List<Integer> amountList;
+	private List<HashMap<String, Object>> goodsList;
 
- 	 public Outstorage(com.example.goods.entity.Outstorage outstorage) {
- 	 	this.id = outstorage.getId();
- 	 	this.code = outstorage.getCode();
- 	 	this.company = outstorage.getCompany();
- 	 	this.department = outstorage.getDepartment();
- 	 	this.phone = outstorage.getPhone();
- 	 	this.outtime = outstorage.getIntime();
- 	 	this.type = outstorage.getType();
- 	 	this.linkman = outstorage.getLinkman();
- 	 	//把逗号分隔的转化为数组
-		this.goodsidsList = ListTransform.stringToList(outstorage.getGoodsids());
-		this.amountList = ListTransform.stringToList(outstorage.getAmount());
-	 }
+// 	 public Outstorage(com.example.goods.entity.Outstorage outstorage) {
+// 	 	this.id = outstorage.getId();
+// 	 	this.code = outstorage.getCode();
+// 	 	this.company = outstorage.getCompany();
+// 	 	this.department = outstorage.getDepartment();
+// 	 	this.phone = outstorage.getPhone();
+// 	 	this.outtime = outstorage.getIntime();
+// 	 	this.type = outstorage.getType();
+// 	 	this.linkman = outstorage.getLinkman();
+// 	 	//把逗号分隔的转化为数组
+//		this.goodsidsList = ListTransform.stringToList(outstorage.getGoodsids());
+//		this.amountList = ListTransform.stringToList(outstorage.getAmount());
+//	 }
+
+	public void transform() {
+		//把逗号分隔的转化为数组
+		this.goodsidsList = ListTransform.stringToList(this.goodsids);
+		this.amountList = ListTransform.stringToList(this.amount);
+	}
 }

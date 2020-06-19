@@ -2,15 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.goods.mapper.OutstorageMapper">
     <!--查询发放信息-->
-    <select id="selOutstorageInfo" resultType="com.example.goods.entity.Outstorage">
-        select * from outstorage
+    <select id="selOutstorageInfo" resultType="com.example.goods.vo.Outstorage">
+        select o.*, d.name department, c.name company, u.name linkman
+        from outstorage o
+        join department d on o.departmentid = d.id
+        join company c on o.companyid = c.id
+        join user u on o.linkmanid = u.phone
         <where>
             <if test="type!=null and type!=0">
-                and type = #{type}
+                and o.type = #{type}
             </if>
             <if test="linkman!=null and linkman!=''">
                 <bind name="linkman" value="'%'+linkman+'%'"/>
-                and linkman like #{linkman}
+                and u.name like #{linkman}
             </if>
         </where>
     </select>
@@ -29,8 +33,8 @@
     <!--添加发放信息-->
     <insert id="insOutstorageInfo" parameterType="com.example.goods.entity.Outstorage">
         insert into outstorage
-        values (default, #{out.code}, #{out.company}, #{out.department}, #{out.phone},
-                #{out.intime}, #{out.type}, #{out.linkman}, #{out.goodsids}, #{out.amount});
+        values (default, #{out.code}, #{out.companyid}, #{out.departmentid}, #{out.linkmanid},
+                #{out.phone}, #{out.intime}, #{out.type}, #{out.goodsids}, #{out.amount}, #{out.status});
     </insert>
     <!--添加发放信息后，减少对应库存数量-->
     <update id="updAmount">
@@ -55,8 +59,8 @@
 
     <update id="updOutstorageInfo" parameterType="com.example.goods.entity.Outstorage">
         update outstorage
-        set company = #{out.company}, department = #{out.department}, phone = #{out.phone},
-            linkman = #{out.linkman}, goodsids = #{out.goodsids}, amount = #{out.amount}
+        set companyid = #{out.companyid}, departmentid = #{out.departmentid}, linkmanid = #{out.linkmanid},
+            phone = #{out.phone}, goodsids = #{out.goodsids}, amount = #{out.amount}, status = #{out.status}
         where id = #{out.id}
     </update>
     <delete id="delOutstorageInfo" parameterType="int">

@@ -48,15 +48,17 @@ public class OutstorageController {
      */
     @PostMapping("/addOutstorageInfo")
     public Result addOutstorageInfo(@RequestBody com.example.goods.entity.Outstorage outstorage) {
-        Assert.isBlank(outstorage.getCompany(), "单位不能为空");
-        Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
+        Assert.isNull(outstorage.getCompanyid(), "单位不能为空");
+        Assert.isNull(outstorage.getDepartmentid(), "部门不能为空");
         Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
         Assert.isNull(outstorage.getType(), "入库类型不能为空");
-        Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
+        Assert.isBlank(outstorage.getLinkmanid(), "联系人不能为空");
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
 
+
         outstorage.setCode(CodeUtil.getOutstorageCode());
+        outstorage.setStatus(1);
         outstorage.setIntime(new Date());
         try {
             outstorageServiceImpl.insOutstorageInfo(outstorage);
@@ -75,15 +77,16 @@ public class OutstorageController {
      */
     @PostMapping("/addUserApply")
     public Result addUserApply(@RequestBody com.example.goods.entity.Outstorage outstorage) {
-        Assert.isBlank(outstorage.getCompany(), "单位不能为空");
-        Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
+        Assert.isNull(outstorage.getCompanyid(), "单位不能为空");
+        Assert.isNull(outstorage.getDepartmentid(), "部门不能为空");
         Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
-        Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
+        Assert.isBlank(outstorage.getLinkmanid(), "联系人不能为空");
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
         //生成编码
         outstorage.setCode(CodeUtil.getOutstorageCode());
         outstorage.setType(2);
+        outstorage.setStatus(0);
         outstorage.setIntime(new Date());
         try {
             outstorageServiceImpl.insUserApply(outstorage);
@@ -104,6 +107,7 @@ public class OutstorageController {
         try {
             Integer id = Integer.parseInt(msg);
             outstorageServiceImpl.passUserApply(id);
+
         } catch (RRException e) {
             return Result.error("库存数量不足！");
         } catch (Exception e) {
@@ -120,13 +124,15 @@ public class OutstorageController {
     @PostMapping("/updOutstorageInfo")
     public Result updOutstorageInfo(@RequestBody com.example.goods.entity.Outstorage outstorage) {
         Assert.isNull(outstorage.getId(), "id不能为空");
-        Assert.isBlank(outstorage.getCompany(), "单位不能为空");
-        Assert.isBlank(outstorage.getDepartment(), "部门不能为空");
+        Assert.isNull(outstorage.getCompanyid(), "单位不能为空");
+        Assert.isNull(outstorage.getDepartmentid(), "部门不能为空");
         Assert.isBlank(outstorage.getPhone(), "手机号不能为空");
-        Assert.isBlank(outstorage.getLinkman(), "联系人不能为空");
+        Assert.isBlank(outstorage.getLinkmanid(), "联系人不能为空");
         Assert.isNull(outstorage.getType(), "类型不能为空");
         Assert.isNull(outstorage.getGoodsids(), "物资不能为空");
         Assert.isNull(outstorage.getAmount(), "物资数量不能为空");
+        Assert.isNull(outstorage.getStatus(), "发放状态不能为空");
+
 
         try {
             outstorageServiceImpl.updOutstorageInfo(outstorage);

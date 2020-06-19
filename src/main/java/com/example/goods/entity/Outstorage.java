@@ -8,5 +8,16 @@ import java.util.Date;
  * @date 2020/5/25
  */
 @Data
-public class Outstorage { 	 private Integer id; 	 private String code; 	 private String company; 	 private String department; 	 private String phone; 	 private Date intime; 	 private Integer type; 	 private String linkman; 	 private String goodsids; 	 private String amount;
+public class Outstorage {
+	private Integer id;
+	private String code;
+	private Integer companyid;
+	private Integer departmentid;
+	private String linkmanid;
+	private String phone;
+	private Date intime;
+	private Integer type;
+	private String goodsids;
+	private String amount;
+	private Integer status;
 }
